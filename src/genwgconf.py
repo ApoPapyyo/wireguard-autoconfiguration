@@ -389,6 +389,10 @@ def usage(name):
     print(f"-h\t--help\t\tShow usage")
     print(f"\t\t--usage")
     print(f"\t\t--debug\t\tRun with debug mode")
+    print(f"-v\t--version\t\tShow version")
+
+def version():
+    print(f"v0.0.1")
 
 def main(argv):
     global DEBUGMODE
@@ -403,12 +407,18 @@ def main(argv):
             if i == '-h':
                 usage(argv[0])
                 exit(0)
+            elif i == '-v':
+                version()
+                exit(0)
             else:
                 print(f"unrecognized option '{i}'", file=sys.stderr)
                 exit(1)
         elif longopt.match(i):
             if i == '--help' or i == '--usage':
                 usage(argv[0])
+                exit(0)
+            elif i == '--version':
+                version()
                 exit(0)
             elif i == '--debug':
                 DEBUGMODE = True
