@@ -146,10 +146,14 @@ def savekeypair(name: str):
         raise FileExistsError(f"{path_to_keys}: already exists")
     path_to_prikey = Path(f"{path_to_keys}/{name}.key")
     path_to_pubkey = Path(f"{path_to_keys}/{name}.pub")
+    if path_to_pubkey.exists() and (not path_to_prikey.exists()):
+        with open(f"{path_to_pubkey}", "r") as f:
+            key_pair = ('(Unknown)', f.readline().replace('\n', ''))
+            return key_pair
     if path_to_prikey.exists():
         os.chmod(f"{path_to_prikey}", 0o600)
         with open(f"{path_to_prikey}", "r") as f:
-            key_pair = mkkey(f.readline())
+            key_pair = mkkey(f.readline().replace('\n', ''))
             return key_pair
     key_pair = mkkey()
     with open(f"{path_to_prikey}", "w") as f:
