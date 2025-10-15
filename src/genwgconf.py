@@ -224,7 +224,12 @@ def mkconf(common: dict, this: dict, others: list):
         print(f"PrivateKey = {savekeypair(name)[0]}", file=f)
         if port != None: print(f"ListenPort = {int(port)}", file=f)
         if mtu != None: print(f"MTU = {int(mtu)}", file=f)
-        if dns != None and dns not in address: print(f"DNS = {dns}", file=f)
+        if dns != None:
+            ng = False
+            for a in address:
+                if dns == a.split('/')[0]:
+                    ng = True
+            if not ng: print(f"DNS = {dns}", file=f)
         
         for p in others:
             keep = common.get('keep', None)
